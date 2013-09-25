@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="320" xmlns:ns1="CustomComponents.*" borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000"
+	creationComplete="creationComplete_handler(event)">
+	<mx:Script>
+		<![CDATA[
+			import GraphicElements.GraphicCircle;
+			import Classes.ModelSingleton;
+			import Classes.DisplayPropertiesSingleton;
+		]]>
+	</mx:Script>
+	<mx:Label x="4" y="0" text="Checkpoints" id="lblTitle" fontSize="12" fontWeight="bold"/>	
+	<mx:Script source="../viewControllers/CheckpointPanel.as"/>
+	
+		
+			<mx:NumericStepper x="89" y="48" id="nsXcoord" maximum="10000" 
+				value="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().x/DisplayPropertiesSingleton.getSingletonInstance().scaleFactor}"/>
+				
+				
+			<mx:Button x="10" y="106" label="Update checkpoint" width="150" id="btnUpdateCheckpoint" click="btnUpdateCheckpointClick_handler(event)"
+				enabled="{DisplayPropertiesSingleton.getSingletonInstance().isGraphicCheckpointSelected()}"/>		
+		
+	
+			<mx:NumericStepper x="89" y="78" id="nsYcoord" maximum="10000"
+				value="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().y/DisplayPropertiesSingleton.getSingletonInstance().scaleFactor}"/>
+		
+
+			 
+			<ns1:SM_TimeEntry x="273" y="45" id="teTimestampArrival" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+				borderColor="black" borderThickness="1" borderStyle="solid"
+			    hour="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().initTime.getHours()}" 
+			    minute="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().initTime.getMinutes()}"  
+			    second="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().initTime.getSeconds()}"
+			    enabled="{(DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().initTime == null)?false:true }"    
+			/> 
+
+			
+			<ns1:SM_TimeEntry x="273" y="77" id="teTimestampStart" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+				borderColor="black" borderThickness="1" borderStyle="solid"
+			    hour="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().endTime.getHours()}" 
+			    minute="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().endTime.getMinutes()}"  
+			    second="{DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().endTime.getSeconds()}"
+			    enabled="{(DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected().endTime == null)?false:true }"
+			/>
+			
+			<mx:Label x="180" y="51" text="Timest. arrival:"/>
+			<mx:Label x="10" y="50" text="New X coord.:"/>
+			<mx:Label x="10" y="80" text="New Y coord.:"/>
+			<mx:Label x="188" y="82" text="Timest. start:"/>
+			<mx:Label x="8" y="200" text="Y coordinate:"/>
+			<mx:NumericStepper x="89" y="168" id="nsNewXcoord" maximum="10000" minimum="0"/>
+			<mx:Button x="10" y="227" label="Add checkpoint" width="150" id="btnAddCheckpoint" click="btnAddCheckpointClick_handler(event)"/>
+			<mx:Label x="8" y="170" text="X coordinate:"/>
+			<mx:NumericStepper x="89" y="198" id="nsNewYcoord" minimum="0" maximum="10000"/>
+			<mx:Label x="180" y="200" text="Timest. arrival:"/>
+			<ns1:SM_TimeEntry x="273" y="196" id="teNewTimestampArrival" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+			        	borderColor="black" borderThickness="1" borderStyle="solid"/>
+			<mx:Label x="228" y="170" text="Node:"/>
+			<mx:ComboBox x="274" y="168" id="cmbNodeId" width="90" dataProvider="{DisplayPropertiesSingleton.getSingletonInstance().getManetNodesIdAC()}" 
+				editable="false" selectedItem="{GraphicCircle(DisplayPropertiesSingleton.getSingletonInstance().getGraphicCheckpointSelected()).getManetNodeParentId()}"/>
+			<mx:Label x="188" y="231" text="Timest. start:"/>
+			<ns1:SM_TimeEntry x="273" y="228" id="teNewTimestampStart" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+			        	borderColor="black" borderThickness="1" borderStyle="solid"/>
+			<mx:Button y="282" label="Delete selected checkpoint" id="btnEraseCheckpoint" horizontalCenter="0" click="btnEraseCheckpointClick_handler(event)" 
+				enabled="{DisplayPropertiesSingleton.getSingletonInstance().isGraphicCheckpointSelected()}"/>
+			<mx:HRule x="137" y="150" width="243" height="10"/>
+			<mx:Label x="12" y="145" text="Add new checkpoint" fontSize="12" fontStyle="italic" textDecoration="normal"/>
+			<mx:Label x="12" y="26" text="Update checkpoint" fontStyle="italic" fontSize="12" textDecoration="normal"/>
+			<mx:HRule x="128" y="31" width="252" height="10"/>
+			<mx:HRule x="41" y="265" width="314" height="10"/>
+			
+	
+</mx:Canvas>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="creationComplete_handler(event)" 
+	borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000" width="100%" height="237"
+	xmlns:components="CustomComponents.*" xmlns:InterfaceComponents="InterfaceComponents.*" currentState="Random Walk">
+	
+<mx:Script>
+		<![CDATA[
+		import MobilityModels.*;
+		]]>
+	</mx:Script>
+	
+	<mx:Script source="../viewControllers/MobilityModelsPanel.as" />
+	
+	<mx:Label x="4" y="0" text="Mobility Models" id="cmbTitle" fontSize="12" fontWeight="bold"/>
+	<mx:ComboBox id="cmbModelSelection" y="24" width="209" height="24" dataProvider="{EnumMobilityTypes}" x="8"
+		 change="currentState=cmbModelSelection.selectedLabel;"/>
+	<mx:Label x="230" y="0" text="Nodes properties:" fontSize="12" fontWeight="normal" fontStyle="italic" id="label9"/> 
+	<mx:Label x="230" y="30" text="Number:" id="label10"/>
+	<mx:NumericStepper id="nodeNumber" minimum="1" stepSize="1"  x="307" y="29" width="55" maximum="1000"/>
+	<mx:Label x="231" y="59" text="Range (m):" id="label11"/> 
+	<mx:NumericStepper  x="307" y="59" id="nsAddRange" maximum="1000" width="55"/>
+	<mx:VRule x="370" y="2" height="88" id="vrule3"/>
+
+	<mx:Label x="380" y="0" text="Model properties:" fontSize="12" fontWeight="normal" fontStyle="italic" id="label3"/>
+	<mx:Label x="381" y="31" text="Speed min:" id="label6"/>
+	<mx:NumericStepper id="minSpeed" minimum="1" maximum="100" stepSize="1"  x="453" y="29" width="54"/> 
+	<mx:Label x="378" y="61" text="Speed Max:" id="label7"/> 
+	<mx:NumericStepper  x="453" y="59" id="maxSpeed" minimum="0" maximum="100" stepSize="1" width="54" value="10"/> 
+	<mx:Label x="397" y="46" text="(m/s)" id="label12"/>
+	<mx:Label x="559" y="60" text="Total duration:" id="label1"/>
+	<components:SM_TimeEntry x="646" y="60" id="globalTime" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+					borderColor="black" borderThickness="1" borderStyle="solid"/>
+	<mx:VRule x="752" y="2" height="88" id="vrule1"/>		
+	
+	<mx:Label x="518" y="31" text="Pause duration:" id="label0"/>
+	<components:SM_TimeEntry x="610" y="28" id="pauseTime" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+					borderColor="black" borderThickness="1" borderStyle="solid"/>
+					
+	<components:SM_TimeEntry x="646" y="32" id="movDuration" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+					borderColor="black" borderThickness="1" borderStyle="solid" enabled="{chkMvDuration.selected}"/>
+	
+	<mx:Label x="756" y="0" text="Scenario properties:" fontSize="12" fontWeight="normal" fontStyle="italic" id="label2"/>
+	<mx:CheckBox x="759" y="28" label="Complete scenario" fontWeight="bold" id="chkCompleteScenario" selected="true"/>
+	<mx:Button x="784" y="52" id="AreaButton" label="Select area" click="{btnSelectAreaClick_handler(0)}" enabled="{!chkCompleteScenario.selected}"/>	
+	<mx:VRule x="223" y="2" height="88" id="vrule2"/>
+	
+	<mx:Button x="754" y="36" label="Advanced" id="advancedProp" click="this.selectAdvParam.visible = true"/>
+	
+	<mx:Button x="560" y="17" label="Incident Zone" click="{btnSelectAreaClick_handler(1)}" id="incidentArea"/>
+	<mx:Button x="571" y="41" label="Wait Zone" click="{btnSelectAreaClick_handler(3)}" id="waitArea"/>
+	
+	<mx:Canvas x="229" y="0" width="608" height="90" id="selectAdvParam"  visible="false" backgroundColor="#BFC2C3">
+		<mx:NumericStepper x="485" y="35" id="minFootSpeed" width="49" value="1" minimum="0" maximum="40"/>
+		<mx:Label x="3" y="-2" text="Advanced properties:" fontSize="12" fontWeight="normal" fontStyle="italic" id="label18" width="133"/>
+		<mx:Label x="40" y="26" text="Intervention duration:" id="label20"/>
+		<mx:Label x="82" y="49" text="Rest duration:" id="label19"/>
+		<mx:Label x="378" y="37" text="Firefighters speed:" id="label22"/>
+		<mx:NumericStepper x="540" y="35" id="maxFootSpeed" width="49" value="2" minimum="0" maximum="40"/>
+		<mx:NumericStepper x="485" y="60" id="minVehicleSpeed" width="49" value="5" minimum="0" maximum="40"/>
+		<mx:NumericStepper x="540" y="60" id="maxVehicleSpeed" width="49" value="12" minimum="0" maximum="40"/>
+		<mx:Label x="395" y="62" text="Vehicles speed:" id="label23"/>
+		<mx:Label x="393" y="10" text="Pause time:" id="label21"/>
+		<mx:HRule x="0" y="10" width="338" height="8"/>
+		<components:SM_TimeEntry x="165" y="19" id="interventionMinTime" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+						borderColor="black" borderThickness="1" borderStyle="solid" minute="10"/>
+		<components:SM_TimeEntry x="270" y="19" id="interventionMaxTime" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+						borderColor="black" borderThickness="1" borderStyle="solid" minute="25"/>
+		<components:SM_TimeEntry x="165" y="47" id="restMinTime" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+						borderColor="black" borderThickness="1" borderStyle="solid" minute="5"/>
+		<components:SM_TimeEntry x="270" y="47" id="restMaxTime" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+						borderColor="black" borderThickness="1" borderStyle="solid" minute="10"/>
+		<components:SM_TimeEntry x="270" y="47" id="pauseTime2" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+						borderColor="black" borderThickness="1" borderStyle="solid" second="5"/>
+		<mx:Button x="9" y="57" label="Back" width="63" click="this.selectAdvParam.visible = false" id="back"/>
+	</mx:Canvas>
+
+	<mx:Button label="Create Model" id="btnCreateModel" click="btnCreateModelClick_handler(event)" x="63" y="56"/>
+	<mx:LinkButton label="HELP" textDecoration="underline" fontSize="8" id="helpLink" click="helpPopUp_handler(event)" x="181" y="2"/>
+	
+	<mx:states>
+		<mx:State name="Random Walk">
+			<mx:SetProperty target="{label0}" name="visible" value="false"/>
+			<mx:SetProperty target="{pauseTime}" name="visible" value="false"/>
+			<mx:AddChild> <mx:RadioButtonGroup id="Duration_type"/> </mx:AddChild>
+			<mx:AddChild> <mx:RadioButton x="518" y="8" groupName="Duration_type" label="Mov. distance (m):" id="chkMvDistance" selected="false"/> </mx:AddChild>
+			<mx:AddChild> <mx:RadioButton x="518" y="32" groupName="Duration_type" label=" Mov. duration (s):" id="chkMvDuration" selected="true"/> </mx:AddChild>
+			<mx:AddChild> <mx:NumericStepper id="mvDistance" minimum="1" maximum="1000" stepSize="1"  x="646" y="7" width="55" enabled="{chkMvDistance.selected}"/> </mx:AddChild>
+			<mx:RemoveChild target="{incidentArea}"/>
+			<mx:RemoveChild target="{waitArea}"/>
+			<mx:RemoveChild target="{selectAdvParam}"/>
+			<mx:RemoveChild target="{advancedProp}"/>
+		</mx:State>
+
+		<mx:State name="Random Waypoint">
+			<mx:SetProperty target="{movDuration}" name="visible" value="false"/>
+			<mx:SetProperty target="{label1}" name="x" value="523"/>
+			<mx:SetProperty target="{vrule1}" name="x" value="716"/>
+			<mx:SetProperty target="{globalTime}" name="x" value="610"/>
+			<mx:SetProperty target="{globalTime}" name="y" value="58"/>
+			<mx:SetProperty target="{AreaButton}" name="x" value="751"/>
+			<mx:SetProperty target="{chkCompleteScenario}" name="x" value="726"/>
+			<mx:SetProperty target="{label2}" name="x" value="723"/>
+			<mx:SetProperty target="{label3}" name="text" value="Model properties:"/>
+			<mx:RemoveChild target="{incidentArea}"/>
+			<mx:RemoveChild target="{waitArea}"/>
+			<mx:RemoveChild target="{selectAdvParam}"/>
+			<mx:RemoveChild target="{advancedProp}"/>
+		</mx:State>
+		
+		<mx:State name="Random Direction">
+			<mx:SetProperty target="{movDuration}" name="visible" value="false"/>
+			<mx:SetProperty target="{label1}" name="x" value="523"/>
+			<mx:SetProperty target="{vrule1}" name="x" value="716"/>
+			<mx:SetProperty target="{globalTime}" name="x" value="610"/>
+			<mx:SetProperty target="{globalTime}" name="y" value="58"/>
+			<mx:SetProperty target="{AreaButton}" name="x" value="751"/>
+			<mx:SetProperty target="{chkCompleteScenario}" name="x" value="726"/>
+			<mx:SetProperty target="{label2}" name="x" value="723"/>
+			<mx:SetProperty target="{label3}" name="text" value="Model properties:"/>
+			<mx:RemoveChild target="{incidentArea}"/>
+			<mx:RemoveChild target="{waitArea}"/>
+			<mx:RemoveChild target="{selectAdvParam}"/>
+			<mx:RemoveChild target="{advancedProp}"/>
+		</mx:State>
+		
+		<mx:State name="Gauss-Markov">
+			<mx:SetProperty target="{label0}" name="visible" value="false"/>
+			<mx:SetProperty target="{pauseTime}" name="visible" value="false"/>
+			<mx:SetProperty target="{movDuration}" name="enabled" value="true"/>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="519" y="35" text="Mov. duration:" id="label4"/>
+			</mx:AddChild>
+			<mx:SetProperty target="{label1}" name="x" value="517"/>
+			<mx:SetProperty target="{globalTime}" name="x" value="605"/>
+			<mx:SetProperty target="{vrule1}" name="x" value="713"/>
+			<mx:SetProperty target="{label2}" name="x" value="717"/>
+			<mx:SetProperty target="{chkCompleteScenario}" name="x" value="720"/>
+			<mx:SetProperty target="{AreaButton}" name="x" value="745"/>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="517" y="8" text="Tuning param:" id="label5"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:NumericStepper x="605" y="6" id="tunningParam" minimum="0" maximum="1" stepSize="0.01" value="0.5"/>
+			</mx:AddChild>
+			<mx:SetProperty target="{movDuration}" name="x" value="605"/>
+			<mx:RemoveChild target="{incidentArea}"/>
+			<mx:RemoveChild target="{waitArea}"/>
+			<mx:RemoveChild target="{selectAdvParam}"/>
+			<mx:RemoveChild target="{advancedProp}"/>
+		</mx:State>
+		
+		<mx:State name="City Section">
+			<mx:SetProperty target="{label6}" name="text" value="Low Speed:"/>
+			<mx:SetProperty target="{label7}" name="text" value="Hight Speed:"/>
+			<mx:RemoveChild target="{movDuration}"/>
+			<mx:RemoveChild target="{pauseTime}"/>
+			<mx:RemoveChild target="{label0}"/>
+			<mx:SetProperty target="{label1}" name="x" value="512"/>
+			<mx:SetProperty target="{vrule1}" name="x" value="714"/>
+			<mx:SetProperty target="{label2}" name="x" value="718"/>
+			<mx:SetProperty target="{chkCompleteScenario}" name="x" value="721"/>
+			<mx:SetProperty target="{AreaButton}" name="x" value="746"/>
+			<mx:SetProperty target="{globalTime}" name="x" value="604"/>
+			<mx:SetProperty target="{globalTime}" name="y" value="56"/>
+			<mx:AddChild position="lastChild">
+				<mx:NumericStepper x="648" y="5" id="streetLong" value="50" minimum="10" maximum="5000" stepSize="10" width="57"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{globalTime}" position="before">
+				<mx:Label x="568" y="5" text="Street width:" id="label8"/>
+			</mx:AddChild>
+			<mx:SetProperty target="{label1}" name="y" value="61"/>
+			<mx:AddChild position="lastChild">
+				<mx:NumericStepper x="648" y="30" width="57" id="numberHSStreets" value="2"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="541" y="32" text="Number of H.S.S:" id="label13"/>
+			</mx:AddChild>
+			<mx:RemoveChild target="{label12}"/>
+			<mx:SetProperty target="{label6}" name="x" value="378"/>
+			<mx:SetProperty target="{minSpeed}" name="y" value="35"/>
+			<mx:SetProperty target="{label6}" name="y" value="37"/>
+			<mx:AddChild position="lastChild">
+				<mx:Label x="399" y="18" text="Speed limits (m/s)" id="label14" fontWeight="bold"/>
+			</mx:AddChild>
+			<mx:RemoveChild target="{incidentArea}"/>
+			<mx:RemoveChild target="{waitArea}"/>
+			<mx:RemoveChild target="{selectAdvParam}"/>
+			<mx:RemoveChild target="{advancedProp}"/>
+		</mx:State>
+		
+		<mx:State name="Disaster Area">
+			<mx:RemoveChild target="{movDuration}"/>
+			<mx:RemoveChild target="{label0}"/>
+			<mx:RemoveChild target="{minSpeed}"/>
+			<mx:RemoveChild target="{maxSpeed}"/>
+			<mx:RemoveChild target="{label6}"/>
+			<mx:RemoveChild target="{label7}"/>
+			<mx:RemoveChild target="{label12}"/>
+			<mx:RemoveChild target="{label10}"/>
+			<mx:RemoveChild target="{nodeNumber}"/>
+			<mx:RemoveChild target="{label2}"/>
+			<mx:RemoveChild target="{chkCompleteScenario}"/>
+			<mx:RemoveChild target="{AreaButton}"/>
+			
+			<mx:SetProperty target="{label11}" name="x" value="396"/>
+			<mx:SetProperty target="{globalTime}" name="x" value="624"/>
+			<mx:SetProperty target="{label1}" name="y" value="28"/>
+			<mx:SetProperty target="{label1}" name="x" value="624"/>
+			<mx:SetProperty target="{globalTime}" name="y" value="45"/>
+			<mx:SetProperty target="{label11}" name="y" value="25"/>
+			<mx:SetProperty target="{nsAddRange}" name="y" value="43"/>
+			<mx:SetProperty target="{advancedProp}" name="x" value="771"/>
+			
+			<mx:AddChild position="firstChild"> <mx:NumericStepper x="304" y="66" id="numParamedics" width="79" maximum="1000"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:Label x="230" y="64" text="Paramedics:" id="label15"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:NumericStepper x="305" y="18" id="numFirefighters" width="78" maximum="1000"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:Label x="228" y="20" text="Fire-fighters:" id="label16"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:NumericStepper x="345" y="42" id="numTransportsToTreatment" width="38" maximum="500"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:Label x="235" y="42" text="Transports:" id="label17" textDecoration="normal"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:Button x="483" y="67" label="Treatment Zone" click="{btnSelectAreaClick_handler(2)}" id="treatmentArea"/>	</mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:RadioButtonGroup id="Speed_Type"/> </mx:AddChild>
+			<mx:AddChild position="firstChild"> <mx:NumericStepper x="304" y="42" id="numTransportsToIncident" width="38" maximum="500"/> </mx:AddChild>
+			<mx:SetProperty target="{waitArea}" name="x" value="482"/>
+			<mx:SetProperty target="{waitArea}" name="width" value="119"/>
+			<mx:SetProperty target="{incidentArea}" name="x" value="482"/>
+			<mx:SetProperty target="{incidentArea}" name="width" value="119"/>
+			<mx:SetProperty target="{selectAdvParam}" name="width" value="626"/>
+			<mx:RemoveChild target="{label19}"/>
+			<mx:RemoveChild target="{label20}"/>
+			<mx:RemoveChild target="{interventionMinTime}"/>
+			<mx:RemoveChild target="{restMinTime}"/>
+			<mx:RemoveChild target="{interventionMaxTime}"/>
+			<mx:RemoveChild target="{restMaxTime}"/>
+			<mx:SetProperty target="{label21}" name="x" value="308"/>
+			<mx:SetProperty target="{label21}" name="y" value="37"/>
+			<mx:SetProperty target="{label22}" name="x" value="78"/>
+			<mx:SetProperty target="{label22}" name="y" value="26"/>
+			<mx:SetProperty target="{label22}" name="text" value="Foot units speed:"/>
+			<mx:SetProperty target="{minFootSpeed}" name="x" value="184"/>
+			<mx:SetProperty target="{minFootSpeed}" name="y" value="24"/>
+			<mx:SetProperty target="{maxFootSpeed}" name="x" value="239"/>
+			<mx:SetProperty target="{maxFootSpeed}" name="y" value="24"/>
+			<mx:SetProperty target="{label23}" name="x" value="89"/>
+			<mx:SetProperty target="{label23}" name="y" value="52"/>
+			<mx:SetProperty target="{minVehicleSpeed}" name="x" value="184"/>
+			<mx:SetProperty target="{minVehicleSpeed}" name="y" value="50"/>
+			<mx:SetProperty target="{maxVehicleSpeed}" name="x" value="239"/>
+			<mx:SetProperty target="{maxVehicleSpeed}" name="y" value="50"/>
+			<mx:SetProperty target="{advancedProp}" name="x" value="735"/>
+			<mx:SetProperty target="{minFootSpeed}" name="value" value="1"/>
+			<mx:SetProperty target="{maxFootSpeed}" name="minimum" value="0"/>
+			<mx:SetProperty target="{maxVehicleSpeed}" name="maximum" value="100"/>
+			<mx:SetProperty target="{vrule3}" name="x" value="471"/>
+			<mx:SetProperty target="{nsAddRange}" name="x" value="398"/>
+			<mx:SetProperty target="{label3}" name="x" value="482"/>
+			<mx:SetProperty target="{incidentArea}" name="y" value="18"/>
+			<mx:SetProperty target="{waitArea}" name="y" value="43"/>
+			<mx:SetProperty target="{advancedProp}" name="y" value="43"/>
+			<mx:SetProperty target="{vrule1}" name="x" value="825"/>
+			<mx:RemoveChild target="{pauseTime}"/>
+			<mx:SetProperty target="{pauseTime2}" name="x" value="380"/>
+			<mx:SetProperty target="{pauseTime2}" name="y" value="33"/>
+		</mx:State>
+		
+		<mx:State name="Incident Area">
+			<mx:RemoveChild target="{AreaButton}"/>
+			<mx:RemoveChild target="{chkCompleteScenario}"/>
+			<mx:RemoveChild target="{label12}"/>
+			<mx:RemoveChild target="{label6}"/>
+			<mx:RemoveChild target="{minSpeed}"/>
+			<mx:RemoveChild target="{maxSpeed}"/>
+			<mx:RemoveChild target="{label2}"/>
+			<mx:SetProperty target="{label10}" name="text" value="Number of teams:"/>
+			<mx:SetProperty target="{vrule3}" name="x" value="423"/>
+			<mx:SetProperty target="{label3}" name="x" value="426"/>
+			<mx:SetProperty target="{nsAddRange}" name="x" value="361"/>
+			<mx:SetProperty target="{nodeNumber}" name="x" value="361"/>
+			<mx:SetProperty target="{incidentArea}" name="x" value="633"/>
+			<mx:SetProperty target="{incidentArea}" name="y" value="26"/>
+			<mx:SetProperty target="{label1}" name="y" value="55"/>
+			<mx:RemoveChild target="{label7}"/>
+			<mx:RemoveChild target="{label0}"/>
+			<mx:SetProperty target="{globalTime}" name="y" value="51"/>
+			<mx:SetProperty target="{vrule1}" name="x" value="845"/>
+			<mx:AddChild position="firstChild">
+				<mx:Label x="429" y="24" text="Fire-fighters per team:"/>
+			</mx:AddChild>
+			<mx:AddChild position="firstChild">
+				<mx:NumericStepper x="570" y="22" width="48" id="numFifreFightersIA" minimum="1" maximum="1000"/>
+			</mx:AddChild>
+			<mx:RemoveChild target="{movDuration}"/>
+			<mx:SetProperty target="{globalTime}" name="x" value="518"/>
+			<mx:SetProperty target="{waitArea}" name="x" value="633"/>
+			<mx:SetProperty target="{waitArea}" name="y" value="50"/>
+			<mx:SetProperty target="{vrule1}" name="y" value="0"/>
+			<mx:SetProperty target="{label1}" name="x" value="430"/>
+			<mx:SetProperty target="{waitArea}" name="width" value="105"/>
+			<mx:RemoveChild target="{pauseTime}"/>
+			<mx:SetProperty target="{pauseTime2}" name="x" value="485"/>
+			<mx:SetProperty target="{pauseTime2}" name="y" value="5"/>
+		</mx:State>
+		
+		<mx:State name="Generating Model">
+			<mx:RemoveChild target="{cmbTitle}"/>
+			<mx:RemoveChild target="{cmbModelSelection}"/>
+			<mx:RemoveChild target="{btnCreateModel}"/>
+			<mx:RemoveChild target="{vrule2}"/>
+			<mx:RemoveChild target="{label9}"/>
+			<mx:RemoveChild target="{label10}"/>
+			<mx:RemoveChild target="{label11}"/>
+			<mx:RemoveChild target="{nodeNumber}"/>
+			<mx:RemoveChild target="{nsAddRange}"/>
+			<mx:RemoveChild target="{AreaButton}"/>
+			<mx:RemoveChild target="{label2}"/>
+			<mx:RemoveChild target="{vrule3}"/>
+			<mx:RemoveChild target="{label3}"/>
+			<mx:RemoveChild target="{label7}"/>
+			<mx:RemoveChild target="{label6}"/>
+			<mx:RemoveChild target="{label12}"/>
+			<mx:RemoveChild target="{minSpeed}"/>
+			<mx:RemoveChild target="{maxSpeed}"/>
+			<mx:RemoveChild target="{label0}"/>
+			<mx:RemoveChild target="{label1}"/>
+			<mx:RemoveChild target="{vrule1}"/>
+			<mx:RemoveChild target="{chkCompleteScenario}"/>
+			<mx:RemoveChild target="{movDuration}"/>
+			<mx:RemoveChild target="{globalTime}"/>
+			<mx:AddChild position="lastChild">
+				<mx:ProgressBar indeterminate="true" id="progBar" label="Generating Model..." labelPlacement="center" horizontalCenter="48" y="22" width="484" height="23" fontSize="13"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button y="21" label="Cancel" fontSize="12" horizontalCenter="-246" id="cancelGeneration" click="btnCancelModelGeneration_handler(event)"/>
+			</mx:AddChild>
+			<mx:RemoveChild target="{incidentArea}"/>
+			<mx:RemoveChild target="{waitArea}"/>
+			<mx:RemoveChild target="{selectAdvParam}"/>
+			<mx:RemoveChild target="{advancedProp}"/>
+			<mx:RemoveChild target="{pauseTime}"/>
+			<mx:RemoveChild target="{helpLink}"/>
+		</mx:State>
+		
+	</mx:states>
+</mx:Canvas>

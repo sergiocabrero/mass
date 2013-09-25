@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="110" height="22" creationComplete="creationComplete_handler(event)">
+<mx:Label id="lblScale" x="5" y="0" width="100" textAlign="center" text="100 meters"/>
+
+<mx:Script>
+	<![CDATA[
+		
+		import mx.events.PropertyChangeEvent;//FR
+		import mx.events.PropertyChangeEventKind;//FR
+		import Classes.ModelPropertyChangeEventType;//FR
+		import Classes.ModelPropertyChangeEventKind;//FR
+		import mx.controls.Alert; //FR
+		import Classes.ModelSingleton;//FR
+		
+		private var _modelInstance:ModelSingleton;//FR
+		private var _scaleFactor:Number = 1;
+		
+		
+		private function creationComplete_handler(event:Event):void	
+		{
+            this.filters = [new DropShadowFilter(3, 90, 0, 0.5)];
+            this.graphics.beginFill(0x4455AB0,1);
+            this.graphics.lineStyle(1,0x000000);
+            this.graphics.drawRect(5, 15, 100, 3);
+            this.graphics.endFill();
+            this.graphics.drawRect(4, 13, 1, 8);
+            this.graphics.drawRect(105, 13, 1, 8);
+            this._modelInstance = ModelSingleton.getSingletonInstance();//FR
+            this._modelInstance.addEventListener(ModelPropertyChangeEventType.SCENARIOPROPERTIES_CHANGE_EVENT,scenarioProperties_changeEvent_handler);//FR			
+		}
+		
+		public function set scaleFactor(newValue:Number):void
+		{
+			if (this.lblScale)
+			{
+					this._scaleFactor = newValue;
+					this.lblScale.text = (100/newValue).toString() + " meters";
+			}	
+		}
+		
+		public function get scaleFactor():Number
+		{
+			return this._scaleFactor;
+		}
+		
+		//FR
+		private function scenarioProperties_changeEvent_handler(event:PropertyChangeEvent):void{
+
+			try{
+				
+				if (event.kind == ModelPropertyChangeEventKind.SET_GOOGLEMAP){
+					
+					this._modelInstance = ModelSingleton.getSingletonInstance();
+					if ((this._modelInstance.scenarioPropertiesCallableProxy.googleMapsInfo!=null)&&
+						(this._modelInstance.scenarioPropertiesCallableProxy.googleMapsInfo._visible==true))
+						this.lblScale.text = "100 pixels";
+					else
+						this.lblScale.text = "100 meters";
+				}
+				
+			}
+			catch(thrownError:Error){
+				
+				Alert.show("Error at Scaleindicator.mxml: " + Error);
+				
+			}
+	
+		}
+		//FR
+		
+	]]>
+</mx:Script>
+</mx:Canvas>

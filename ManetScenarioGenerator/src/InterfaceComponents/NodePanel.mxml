@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:components="CustomComponents.*" width="400" height="490" minHeight="485"
+	borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000" creationComplete="creationComplete_handler(event)">
+	<mx:Script>
+		<![CDATA[
+			import Classes.ModelSingleton;
+		]]>
+	</mx:Script>
+	<mx:Script source="../viewControllers/NodePanel.as"/>
+	
+	<mx:Label x="4" y="0" text="Nodes" id="lblTitle" fontSize="12" fontWeight="bold"/>
+
+	<mx:Label x="9" y="54" text="Node id:"/>
+	<mx:TextInput x="69" y="52" id="txtNewNodeId" width="100"/>
+
+	<mx:Label x="9" y="88" text="Init X coordinate:"/>
+	<mx:NumericStepper x="112" y="86" id="nsXcoord" maximum="10000"/>
+
+	<mx:Label x="9" y="120" text="Init Y coordinate:"/>
+	<mx:NumericStepper x="112" y="117" id="nsYcoord" maximum="10000"/>
+
+	<mx:Label x="244" y="85" text="Colour:"/>
+	<mx:ColorPicker x="293" y="82" id="cpColour" selectedColor="0xe8350b"/>
+
+	<mx:Label x="199" y="119" text="Init timestamp:"/>
+	<components:SM_TimeEntry x="292" y="114" id="teTimestamp" showSeconds="true" is24Hour="true" backgroundColor="#CCCCCC" 
+		borderColor="black" borderThickness="1" borderStyle="solid"/>		
+
+
+	<mx:Label x="244" y="54" text="Range:"/>
+	<mx:NumericStepper  x="294" y="52" id="nsAddRange" maximum="1000"/>
+	
+	
+	<mx:Button label="Add node to scenario" id="btnAddNode" x="125" y="147"/>
+	
+<mx:VBox x="7" y="195" height="275">
+	
+<components:MarkDataGrid width="382" height="200"  id="mdgNodesList" 
+	dataProvider="{DisplayPropertiesSingleton.getSingletonInstance().getDisplayedManetNodesPropertiesAC()}"
+	valueCommit="{this.mdgNodesListValueCommit_handler(event)}" itemClick="{this.mdgNodesListValueCommit_handler(event)}">
+	<components:columns>
+		<mx:DataGridColumn headerText="Node Id" dataField="node_id" textAlign="center" width="64">
+			<mx:itemRenderer>
+	        	<mx:Component>
+	          	<mx:VBox horizontalAlign="center">
+	          		<mx:Script>
+	          			<![CDATA[
+	          				import Classes.DisplayPropertiesSingleton;
+	          			]]>
+	          		</mx:Script>
+	          		<mx:TextInput id="txtNodeId" height="20" text="{data.node_id}" width="60" maxChars="20"/>
+					<mx:StringValidator id="strvalNodeIdInput" source="{txtNodeId}" property="text" required="true" requiredFieldError="An id is required" trigger="{txtNodeId}"
+						 triggerEvent="focusOut" maxLength="11" minLength="1" tooLongError="Invalid id: too long" tooShortError="Invalid id: too short" 
+						 invalid="{txtNodeId.text = data.node_id}" valid="{outerDocument.txtNodeIdFocusOut_handler(event, data.node_id, txtNodeId.text)}"/>						           			
+	          	</mx:VBox>
+	          	</mx:Component>
+	         </mx:itemRenderer>	
+	    </mx:DataGridColumn>	 		
+		<mx:DataGridColumn headerText="Colour" dataField="node_colour" textAlign="center" width="54">
+			<mx:itemRenderer>
+	        	<mx:Component>
+	          	<mx:VBox horizontalAlign="center">
+	          		<mx:Script>
+	          			<![CDATA[
+	          				import Classes.DisplayPropertiesSingleton;
+	          			]]>
+	          		</mx:Script>
+	          		<mx:ColorPicker id="cpManetNode" height="20" selectedColor="{data.node_colour}" 
+	          			change="{outerDocument.cpManetNodeChange_handler(event, data.node_id, this.cpManetNode.selectedColor)}"
+	          			dataProvider="{DisplayPropertiesSingleton.getSingletonInstance().getNodeColoursObject()}"/>
+	          	</mx:VBox>
+	          	</mx:Component>
+	         </mx:itemRenderer>	
+         </mx:DataGridColumn>	
+         
+		<mx:DataGridColumn headerText="Trajectories" dataField="node_trajectory_visibility" textAlign="center" width="60">
+			<mx:itemRenderer>
+	        	<mx:Component>
+	          		<mx:CheckBox height="20" selected="{data.node_trajectory_visibility}" 
+	          			change="{outerDocument.chkVisibilityChange_handler(event, data.node_id, this.selected)}"/>
+	          	</mx:Component>
+	         </mx:itemRenderer>	
+        	<mx:headerRenderer>
+        		<mx:Component>
+        			<components:CheckBoxHeaderRenderer2 label="Trajectories" change="{outerDocument.chkVisibilityHeaderChange_handler(event, this.selected)}"/>
+        		</mx:Component>
+        	</mx:headerRenderer>	         				
+		</mx:DataGridColumn>		
+		
+		<mx:DataGridColumn headerText="Ranges" dataField="node_range_visibility" textAlign="center" width="60">
+			<mx:itemRenderer>
+	        	<mx:Component>
+	          		<mx:CheckBox height="20" selected="{data.node_range_visibility}" 
+	          			change="{outerDocument.chkRangeVisibilityChange_handler(event, data.node_id, this.selected)}"/>
+	          	</mx:Component>
+	         </mx:itemRenderer>	
+        	<mx:headerRenderer>
+        		<mx:Component>
+        			<components:CheckBoxHeaderRenderer2 label="Ranges" change="{outerDocument.chkRangeVisibilityHeaderChange_handler(event, this.selected)}"/>
+        		</mx:Component>
+        	</mx:headerRenderer>	         				
+		</mx:DataGridColumn>				
+		
+	</components:columns>
+</components:MarkDataGrid>
+<mx:Spacer height="58"/>	
+</mx:VBox>
+	
+	<mx:NumericStepper x="117" id="nsUpdateRange" maximum="1000" bottom="35"/>
+	<mx:Label x="14" text="Range:" bottom="35"/>
+	<mx:Button x="14" label="Update" id="btnUpdateNode" click="btnUpdateNodeClick_handler(event)"
+		enabled="{this.mdgNodesList.selectedItem}" width="85" bottom="7"/>
+	<mx:HRule x="104" y="180" width="274" height="10"/>
+	<mx:Button label="Delete node" id="btnEraseNode" horizontalCenter="140" click="btnEraseNodeClick_handler(event)"
+		enabled="{this.mdgNodesList.selectedItem}" bottom="35"/>	
+	<mx:Label x="12" y="26" text="Add new node" fontSize="12" fontWeight="normal" fontStyle="italic"/>
+	<mx:Label x="12" y="174" text="Current nodes" fontSize="12" fontStyle="italic"/>
+	<mx:HRule x="103" y="36" width="278" height="2"/>
+	<mx:Button x="105" label="Update All" id="btnUpdateAllNodes" click="btnUpdateAllNodesClick_handler(event)" width="85" bottom="7"/>
+
+	<mx:StringValidator id="strvalNewNodeIdInput" source="{this.txtNewNodeId}" property="text" trigger="{this.btnAddNode}"
+		 triggerEvent="click" maxLength="11" tooLongError="Invalid id: too long" required="false"  
+		 invalid="{this.txtNewNodeId.text = ''}" valid="{this.btnAddNodeClick_handler(event)}"/>	
+		 
+</mx:Canvas>

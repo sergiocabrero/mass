@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000">
+	<mx:Script source="../viewControllers/FilePanel.as"/>	
+	<mx:Label x="4" y="0" text="File" id="lblTitle" fontSize="12" fontWeight="bold"/>
+
+	<mx:Button x="10" y="28" label="Load scenario..." id="btnBrowseFile" click="btnBrowseFileClick_handler(event)" width="120" textAlign="center"/>
+	<mx:Button x="138" y="28" label="Save scenario..." id="btnSaveScenario" click="btnSaveScenarioClick_handler(event)" width="120"/>
+	<mx:Button x="266" y="28" label="Clear scenario" id="btnClearScenario" click="btnClearScenarioClick_handler(event)" width="120"/>
+</mx:Canvas>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:ns2="GraphicElements.*" 
+	creationComplete="ScenarioField_creationComplete_handler(event)" addedToStage="addedToStage_handler(event)"
+	backgroundColor="{DisplayPropertiesSingleton.getSingletonInstance().getBackgroundWorkAreaColour()}"
+	borderThickness="1" borderStyle="outset" borderColor="black">
+
+	<!--<mx:Image id="imgScenarioBackground"  scaleContent="true" source="./images/gijonmapa.jpg"/>-->
+	<mx:Image id="imgScenarioBackground"  scaleContent="true" styleName="imageStyle"/>
+
+	<!--<FR>-->
+	<maps:Map xmlns:maps="com.google.maps.*" id="map" width="100%" height="100%" url="http://localhost"
+		key="ABQIAAAAJ229W_A8l9OO4E0PnVDdtRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxR9sNk8NzmY4sLJxg7xdbF0F3QTQw"
+		sensor="false" visible="false"/>
+	<!--<FR>-->
+	
+	<mx:Canvas id="canvasGrid" width="{this.canvasScenario.width}" height="{this.canvasScenario.height}" 
+		verticalScrollPolicy="off" horizontalScrollPolicy="off"/>
+		
+	<mx:Canvas id="canvasScenario"  width="400" height="300" borderThickness="1" borderColor="red" 
+		borderStyle="outset"  verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		
+	<mx:Canvas id="canvasLinks" width="{this.canvasScenario.width}" height="{this.canvasScenario.height}" 
+		verticalScrollPolicy="off" horizontalScrollPolicy="off"/>			
+		
+		<mx:Script source="../viewControllers/ScenarioField.as"/>
+		
+	<mx:Script>
+		<![CDATA[
+			import Classes.DisplayPropertiesSingleton;
+		]]>
+	</mx:Script>
+
+	</mx:Canvas>
+	
+	<mx:Canvas id="canvasPoppers" width="{this.canvasScenario.width}" height="{this.canvasScenario.height}" 
+		verticalScrollPolicy="off" horizontalScrollPolicy="off"/>
+		
+	<mx:Canvas id="selectRectCanvas" borderColor="#0000ff" backgroundAlpha="0.4" backgroundColor="#dddddd" borderStyle="solid" 
+		borderThickness="1" visible="false" />	
+	
+    <mx:Style>
+        Image.imageStyle{brokenImageSkin: Embed("Images/image_not_found1.png");}
+    </mx:Style>
+<mx:Binding source="this.canvasScenario.height" destination="this.canvasGrid.height" />
+<mx:Binding source="this.canvasScenario.width" destination="this.canvasGrid.width" />
+
+</mx:Canvas>

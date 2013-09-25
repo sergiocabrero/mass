@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000"
+	creationComplete="GoogleCreationComplete_handler(event)">
+	<mx:Label x="4" y="0" text="Integration with Google Maps" id="lblTitle" fontSize="12" fontWeight="bold" height="20" width="200"/>
+	<mx:Script source="../ViewControllers/GooglePanel.as"/> 
+	
+	<mx:Script>
+		<![CDATA[
+		
+		private function modeSelectorHandler():void{
+			
+			if (modeSelector.selectedItem.toString()=="Coordinates")
+			{
+				locationCaption.enabled=false;
+				latitudeStepper.enabled=true;
+				longitudeStepper.enabled=true;
+			}
+				
+			else if (modeSelector.selectedItem.toString()=="Location")
+			{
+				locationCaption.enabled=true;
+				latitudeStepper.enabled=false;
+				longitudeStepper.enabled=false;
+			}
+		}
+		
+		private function checkBoxChange():void{
+			
+			if ((checkBox.selected)&&(modeSelector.selectedItem.toString()=="Coordinates"))
+			{
+				locationCaption.enabled=false;
+				latitudeStepper.enabled=true;
+				longitudeStepper.enabled=true;
+				apply(mapTypeSelector.text,modeSelector.text,zoomStepper.value,latitudeStepper.value,
+					longitudeStepper.value,locationCaption.text,checkBox.selected,doubleClickModeSelector.text);
+			}
+				
+			else if ((checkBox.selected)&&(modeSelector.selectedItem.toString()=="Location"))
+			{
+				locationCaption.enabled=true;
+				latitudeStepper.enabled=false;
+				longitudeStepper.enabled=false;
+				apply(mapTypeSelector.text,modeSelector.text,zoomStepper.value,latitudeStepper.value,
+					longitudeStepper.value,locationCaption.text,checkBox.selected,doubleClickModeSelector.text);
+			}
+			else if (!checkBox.selected)
+			{
+				locationCaption.enabled=false;
+				latitudeStepper.enabled=false;
+				longitudeStepper.enabled=false;
+				apply(mapTypeSelector.text,modeSelector.text,zoomStepper.value,latitudeStepper.value,
+					longitudeStepper.value,locationCaption.text,checkBox.selected,doubleClickModeSelector.text);
+			}
+		}
+		
+		
+			
+		]]>
+	</mx:Script>
+		
+	<mx:Label x="10" y="25" text="Map type:" fontWeight="bold" width="115" height="20"/>	
+	<mx:ComboBox x="125" y="25" id="mapTypeSelector" editable="false" enabled="{checkBox.selected}" width="100" height="20">
+	<mx:ArrayCollection>
+         <mx:String>Normal</mx:String>
+         <mx:String>Satellite</mx:String>
+         <mx:String>Hybrid</mx:String>
+         <mx:String>Physical</mx:String>
+      </mx:ArrayCollection>
+	</mx:ComboBox>
+
+	<mx:Label x="725" y="25" text="Zoom level:" fontWeight="bold" width="75" height="20"/>
+	<mx:NumericStepper x="800" y="25" width="50" minimum="0" maximum="21"
+		enabled="{checkBox.selected}" stepSize="1" id="zoomStepper" value="10" height="20"/>
+			
+	<mx:Label x="245" y="25" text="Center the map using:" fontWeight="bold" width="130" height="20"/>
+	<mx:ComboBox x="375" y="25" id="modeSelector" editable="false" enabled="{checkBox.selected}" 
+		change="modeSelectorHandler();" width="110" height="20">
+	<mx:ArrayCollection>
+         <mx:String>Location</mx:String>
+         <mx:String>Coordinates</mx:String>
+      </mx:ArrayCollection>
+	</mx:ComboBox>
+	
+	<mx:Label x="495" y="25" text="Central latitude:" fontWeight="bold" width="110" textAlign="left" height="20"/>
+	<mx:NumericStepper x="605" y="25" id="latitudeStepper" minimum="-90.000000" maximum="90.000000"
+		stepSize="0.000001" width="100" enabled="false" value="0" height="20"/>
+		
+	<mx:Label x="495" y="60" text="Central longitude:" fontWeight="bold" width="110" textAlign="left" height="20"/>
+	<mx:NumericStepper x="605" y="60" width="100" minimum="-180.000000" maximum="180.000000" 
+		stepSize="0.000001" id="longitudeStepper" enabled="false" value="0" height="20"/>
+	
+	<mx:Label x="245" y="60" text="Location:" fontWeight="bold" width="60" height="20"/>
+	<mx:TextInput x="305" y="60" width="180" id="locationCaption" height="20" enabled="false"/>
+		
+	<mx:Button x="885" label="Update" id="UpdateButton"
+		click="apply(mapTypeSelector.text,modeSelector.text,zoomStepper.value,latitudeStepper.value,
+		longitudeStepper.value,locationCaption.text,checkBox.selected,doubleClickModeSelector.text)" y="35" enabled="{checkBox.selected}" width="95" height="25"/>
+		
+	<mx:CheckBox x="725" y="60" label="Enable Google Maps" fontWeight="bold" id="checkBox" change="checkBoxChange();" enabled="true" selected="false" width="140" height="20"/>
+	<mx:Label x="10" y="60" text="Double click mode:" fontWeight="bold" width="115" textAlign="left" height="20"/>
+	<mx:ComboBox x="125" y="60" id="doubleClickModeSelector" editable="false" enabled="{checkBox.selected}" width="100" height="20">
+	<mx:ArrayCollection>
+	     <mx:String>Shift</mx:String>
+	     <mx:String>Set corner</mx:String>
+	  </mx:ArrayCollection>
+	</mx:ComboBox>
+	
+</mx:Canvas>

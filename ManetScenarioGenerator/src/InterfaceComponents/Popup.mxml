@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" close="finPopUp();" width="600" height="700"  showCloseButton="false" title="titulo de mi ventana" horizontalAlign="center" verticalAlign="middle" fontSize="15" fontWeight="bold" borderColor="#E2E2E2"> 
+	
+	<mx:Script source="../ViewControllers/Popup.as"/> 
+	
+	<!--PASOS A SEGUIR-->
+	
+	<mx:Text text="Steps to follow" fontSize="13" color="#F55D12" width="134" textAlign="center" height="25"/>
+	<mx:TextArea width="450" height="300" fontSize="11" text="Firstly, load the node list by clicking on 'Load node list'.&#xa;&#xa;If you have selected a simple metric (degree of spatial dependence, relative speed, number of link changes or link duration), drag the two nodes you want to use for the calculation from 'Scenario nodes' to 'Calculation nodes'.&#xa;&#xa;In case of degree of temporal dependence, drag only one node.&#xa;&#xa;Regarding to average metrics (average degree of spatial dependence, average degree of temporal dependence, average relative speed, average number of link changes and average link duration) drag all the nodes you want to use for the calculation.&#xa;&#xa;Click on 'Calculate' to obtain the results.&#xa;&#xa;Click on 'Cancel' to exit." textDecoration="normal" textAlign="left" backgroundColor="#E2E2E2" cornerRadius="4"/>
+
+    <mx:HBox height="270" width="450" horizontalAlign="center" verticalAlign="middle" horizontalGap="20">
+
+		<!--LISTA DE NODOS-->
+        <mx:VBox height="230" verticalAlign="middle" horizontalAlign="center" width="210" verticalGap="5">
+            <mx:Label text="Scenario nodes" fontSize="12" fontWeight="bold" textAlign="center" width="200" height="20"/>
+            <mx:List id="nodosIniciales" 
+            	dataProvider="{listaInicial}"
+                allowMultipleSelection="true"
+                dragEnabled="true"
+                dragMoveEnabled="true" width="200" height="165" textAlign="left" fontWeight="bold" fontSize="11" backgroundColor="#E2E2E2" cornerRadius="4"/>
+                <mx:Button 
+                label="Load node list"
+                click="initApp()"
+             fontSize="12" width="200" height="25"/>
+        </mx:VBox>
+        
+		<!--NODOS PARA CÁLCULO-->
+        <mx:VBox id="drop" height="230" width="210" horizontalAlign="center" verticalAlign="middle" verticalGap="5">
+            <mx:Label text="Calculation nodes" fontWeight="bold" fontSize="12" textAlign="center" width="200" height="20"/>
+            <mx:List id="nodosFinales"
+            	dataProvider="{listaFinal}"
+                dropEnabled="true" width="200" height="165" fontSize="11" backgroundColor="#E2E2E2" cornerRadius="4"/>
+            <mx:Button id="b2" 
+                 label="Calculate"
+                 click="finPopUp()"
+             width="200"  fontSize="12" height="25"/>
+            
+        </mx:VBox>
+    </mx:HBox>
+    
+    <!--BOTÓN CANCELAR-->
+    <mx:Button label="Cancel" width="200" height="25" labelPlacement="bottom" click="onClose()" fontSize="12"/>
+    </mx:TitleWindow>
+	
+	
+

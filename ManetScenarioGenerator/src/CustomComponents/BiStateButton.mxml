@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" currentState="stateOne">
+	<!--<mx:String id="stateOneLabel"></mx:String>
+	<mx:String id="stateTwoLabel"></mx:String>-->	
+	<mx:Boolean id="stateOneEnabled">true</mx:Boolean>
+	<mx:Boolean id="stateTwoEnabled">true</mx:Boolean>
+	<mx:states>
+		<mx:State name="stateOne">
+			<mx:SetProperty name="enabled" value="{this.stateOneEnabled}"/>
+			<mx:SetProperty name="label" value="{this.stateOneLabel}"/>
+		</mx:State>
+		<mx:State name="stateTwo">
+			<mx:SetProperty name="enabled" value="{this.stateTwoEnabled}"/>
+			<mx:SetProperty name="label" value="{this.stateTwoLabel}"/>
+		</mx:State>		
+	</mx:states>
+	
+<mx:Script>
+	<![CDATA[
+		[Bindable]public var stateOneLabel:String;
+		[Bindable]public var stateTwoLabel:String;
+		
+		public function set stOneLabel(text:String):void
+		{
+			this.stateOneLabel = text;
+			if (currentState == "stateOne")
+			{
+				this.label = text;	
+			}
+		}
+		public function get stOneLabel():String
+		{
+			return this.stateOneLabel;
+		}
+		
+		public function set stTwoLabel(text:String):void
+		{
+			this.stateTwoLabel = text;
+			if (currentState == "stateTwo")
+			{
+				this.label = text;	
+			}
+		}
+		public function get stTwoLabel():String
+		{
+			return this.stateTwoLabel;
+		}		
+		
+		
+	]]>
+</mx:Script>	
+</mx:Button>

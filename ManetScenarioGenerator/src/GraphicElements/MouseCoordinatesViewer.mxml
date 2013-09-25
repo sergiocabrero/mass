@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="125" height="18" borderStyle="solid" borderThickness="1" borderColor="#000000">
+<mx:Label text="X:" x="0"/>
+<mx:Label id="xCoord" text="0" x="12"/>
+<mx:Label text="Y:" x="60"/>
+<mx:Label id="yCoord" text="0" x="72"/>
+
+<mx:Script>
+	<![CDATA[
+		public function setCoordinates(xCoordValue:Number, yCoordValue:Number):void
+		{
+			this.xCoord.text = (int(xCoordValue*100)/100).toString();
+			this.yCoord.text = (int(yCoordValue*100)/100).toString();
+		}	
+	]]>
+</mx:Script>
+	
+	
+</mx:Canvas>

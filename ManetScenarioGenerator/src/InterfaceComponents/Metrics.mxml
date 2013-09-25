@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" implements="CalculoMetricas.PopupToMetrics" borderStyle="none">
+
+<mx:Script source="../viewControllers/Metrics.as"/>
+<mx:Script source="../viewControllers/popup.as"/>
+
+<mx:XMLList id="treeDP2">
+
+<node label="SPATIAL MOBILITY" >
+<node label="DEGREE OF SPATIAL DEPENDENCE" type="radio" groupName="one" data="1A" />
+<node label="AVERAGE DEGREE OF SPATIAL DEPENDENCE" type="radio" groupName="one" data="1B"/>
+<node label="DEGREE OF TEMPORAL DEPENDENCE" type="radio" groupName="one" data="1C"/>
+<node label="AVERAGE DEGREE OF TEMPORAL DEPENDENCE" type="radio" groupName="one" data="1D"/>
+<node label="RELATIVE SPEED" type="radio" groupName="one" data="1E"/>
+<node label="AVERAGE RELATIVE SPEED" type="radio" groupName="one" data="1F"/>
+</node>
+
+<node label="GRAPH CONNECTIVITY" >
+<node label="NUMBER OF LINK CHANGES" type="radio" groupName="two" data="2A"/>
+<node label="AVERAGE NUMBER OF LINK CHANGES" type="radio" groupName="two" data="2B"/>
+<node label="LINK DURATION" type="radio" groupName="two" data="2C"/>
+<node label="AVERAGE LINK DURATION" type="radio" groupName="two" data="2D"/>
+
+</node>
+
+</mx:XMLList>
+
+<mx:PopUpMenuButton itemClick="itemClickHandler(event)" id="p2" dataProvider="{treeDP2}" labelField="@label" label="Calculate metrics" height="23" x="0" y="0" labelPlacement="bottom"/>
+
+</mx:Canvas> 

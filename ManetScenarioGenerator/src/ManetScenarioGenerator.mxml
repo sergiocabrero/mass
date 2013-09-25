@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	initialize="initializeApplication_handler(event)" xmlns:ns1="InterfaceComponents.*"
+	width="1335" height="820" xmlns:ns2="GraphicElements.*"  minHeight="400" minWidth="600"
+ 	title="DisplayPropertiesSingleton.APPLICATION_TITLE"-->
+ 
+<!--<FR>-->
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	initialize="initializeApplication_handler(event)" xmlns:ns1="InterfaceComponents.*" xmlns:ns2="GraphicElements.*"
+ 	title="MASS Editor" applicationComplete="onApplicationComplete();">
+<!--<FR>-->	
+	<mx:Script>
+		<![CDATA[
+			import InterfaceComponents.Metrics;
+			import Classes.DisplayPropertiesSingleton;
+			
+			//FR
+			private function onApplicationComplete():void {
+               stage.nativeWindow.maximize();          
+            }
+            //FR
+		]]>
+	</mx:Script>
+	<mx:Script source="viewControllers/ManetScenarioGenerator.as"/>	
+	
+	<mx:HBox top="4" right="4" bottom="4" left="4" verticalAlign="middle" horizontalAlign="center">
+	<!--mx:HBox width="2000" height="2000" verticalAlign="middle" horizontalAlign="center"-->
+		<!--mx:VBox width="1004" height="100%" visible="true"-->
+		<mx:VBox width="1004" height="100%" visible="true" horizontalAlign="left">
+				<mx:ApplicationControlBar width="775" height="28" paddingTop="0" verticalAlign="middle" horizontalAlign="left" paddingBottom="0" cornerRadius="4">
+					 <mx:LinkBar dataProvider="vwsAppPanels" horizontalGap="15" height="100%" width="620"/>
+		  
+                   <ns1:Metrics minHeight="10" height="23" width="130" cornerRadius="0"/>
+              
+				</mx:ApplicationControlBar>	
+			<mx:HBox horizontalAlign="left" width="1004">
+			
+		        <mx:ViewStack id="vwsAppPanels" showEffect="{this.fadeIn}" height="95" width="1004" creationPolicy="all">  
+        		
+        			<ns1:FilePanel label="File" showEffect="{this.fadeIn}" 
+        				hideEffect="{this.fadeOut}" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowEnabled="true"/>     
+					
+					<ns1:ScenarioGeneralPanel label="Scenario properties" showEffect="{this.fadeIn}" height="100%" 
+						hideEffect="{this.fadeOut}" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowEnabled="true"/>	
+					
+					<ns1:AppGeneralPanel label="Application settings" showEffect="{this.fadeIn}" height="100%" 
+						hideEffect="{this.fadeOut}" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowEnabled="true"/>	         
+		        	
+		        	<ns1:MobilityModelsPanel label="Mobility Models" showEffect="{this.fadeIn}" height="100%" 
+						hideEffect="{this.fadeOut}" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowEnabled="true"/>
+		        	<!--<FR>-->
+		        	<ns1:GooglePanel label="Integration with Google Maps" showEffect="{this.fadeIn}" height="100%" 
+						hideEffect="{this.fadeOut}" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowEnabled="true"/>			        		
+		        	<!--<FR>-->
+		        			        	
+		        </mx:ViewStack>	
+
+			</mx:HBox>
+			<ns1:ScenarioField id="scenarioField" height="576" width="1004"/>
+			<mx:HBox horizontalAlign="right" width="1004">
+				<ns2:MouseCoordinatesViewer id="mcvScenarioField">
+				</ns2:MouseCoordinatesViewer>
+				<mx:Spacer width="100%"/>
+				<ns2:ScaleIndicator id="sciScale"/>
+			</mx:HBox>
+			<ns1:ScenarioProgressTimeBar height="70" width="1004" dropShadowEnabled="true"/>
+		</mx:VBox>
+		<!--mx:VBox height="100%"-->
+		<mx:VBox height="100%" width="400" horizontalAlign="right">
+			<ns1:NodePanel height="490" dropShadowEnabled="true"/>	
+			<ns1:CheckpointPanel dropShadowEnabled="true"/>	
+		</mx:VBox>	
+	</mx:HBox>	
+	<mx:Fade alphaFrom="0" alphaTo="1" duration="250" id="fadeIn"/>
+	<mx:Fade alphaFrom="1" alphaTo="0" duration="250" id="fadeOut"/>
+</mx:WindowedApplication>

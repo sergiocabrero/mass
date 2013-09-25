@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="creationComplete_handler(event)" 
+	borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000">
+    <mx:Style>
+        Image.imageStyle{brokenImageSkin: Embed("Images/image_not_found1.png");}
+    </mx:Style>
+	
+<mx:Script source="../viewControllers/ScenarioGeneralPanel.as"/>
+
+<mx:Script>
+	<![CDATA[
+		import Classes.ModelSingleton;
+
+
+	]]>
+</mx:Script>	
+	<mx:Label x="4" y="0" text="Scenario properties" id="lblTitle" fontSize="12" fontWeight="bold"/>
+	
+	
+		<mx:Button x="313" y="34" label="Browse..." id="btnBrowseImage" click="btnBrowseImageClick_handler(event)" width="80"/>
+		<mx:CheckBox x="469" y="63" label="Show" id="chkBackgroundImage" valueCommit="chkBackgroundImageValueCommit_handler(event)"/>
+		<mx:Label x="403" y="50" text="No image" selectable="false"/>
+		<mx:HBox x="401" y="36" width="60" height="45" borderColor="black" borderThickness="1" borderStyle="outset">
+			<mx:Image id="imgThumb" scaleContent="true" width="100%" height="100%" styleName="imageStyle"/>
+		</mx:HBox>
+		
+	
+		<mx:Button x="313" y="61" label="Clear" width="80" id="btnClearImage" click="btnClearImageClick_handler(event)"/>
+		<mx:NumericStepper id="nsHeight" minimum="100" maximum="10000" stepSize="1"  x="68" y="36"/>
+		<mx:NumericStepper id="nsWidth" minimum="100" maximum="10000"  stepSize="1" x="68" y="63"/>
+		<mx:Label x="14" y="38" text="Height:"/>
+		<mx:Label x="15" y="65" text="Width:"/>
+		<mx:Button x="155" y="36" label="Update" id="btnUpdateDimensions" width="70" 
+			click="btnUpdateDimensionsClick_handler(event, this.nsHeight.value, this.nsWidth.value)"/>
+		<mx:Label x="313" y="16" text="Background image:" fontSize="12" fontWeight="normal" fontStyle="italic"/>
+		<mx:Label x="10" y="16" text="Dimensions:" fontSize="12" fontWeight="normal" fontStyle="italic"/>
+
+</mx:Canvas>

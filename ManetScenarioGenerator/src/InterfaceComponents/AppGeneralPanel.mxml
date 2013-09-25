@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+		
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="creationComplete_handler(event)" borderStyle="solid" cornerRadius="4" borderThickness="2" borderColor="#000000">
+	<mx:Label x="4" y="0" text="Application settings" id="lblTitle" fontSize="12" fontWeight="bold"/>
+	<mx:Script>
+		<![CDATA[
+			import Classes.DisplayPropertiesSingleton;
+		]]>
+	</mx:Script>
+<mx:Script source="../viewControllers/AppGeneralPanel.as"/>	
+
+
+	<mx:CheckBox x="216" y="49" label="Loop movement" id="chkLoopMovement" selected="{DisplayPropertiesSingleton.getSingletonInstance().loopMovement}"
+		 change="chkLoopMovementChange_handler(event)"/>
+	<mx:Label x="5" y="38" text="Range alpha:" id="lblAlphaRanges"/>
+	<mx:Label x="5" y="64" text="Checkpoint size:"/>
+	<mx:NumericStepper x="103" y="36" width="55" id="nsRangeAlpha" value="{DisplayPropertiesSingleton.getSingletonInstance().rangeAlpha}" 
+		minimum="0.1" maximum="1" stepSize="0.1" change="nsRangeAlphaChange_handler(event)"/>
+	<mx:NumericStepper x="103" y="62" width="55" id="nsCheckpointSize" value="{DisplayPropertiesSingleton.getSingletonInstance().checkpointSize}" 
+		minimum="1.5" maximum="5" stepSize="0.25" change="nsCheckpointSizeChange_handler(event)"/>
+	<mx:Button x="395" y="37" label="Browse..." id="btnBrowseImage" click="{this.btnBrowseImageClick_handler(event)}" width="80"/>
+	<mx:HBox x="483" y="37" width="25" height="25" borderColor="black" borderThickness="1" borderStyle="outset">
+		<mx:Image width="100%" height="100%" id="imgThumbNodeIcon" source="{DisplayPropertiesSingleton.getSingletonInstance().getNodeIconPath()}"
+			complete="imgThumbNodeIconComplete_handler(event)" verticalAlign="middle" horizontalAlign="center"/>
+	</mx:HBox>	
+	<mx:Button x="395" y="64" label="Clear" id="btnClearImage" click="{this.btnClearImageClick_handler(event)}" width="80"/>
+	<mx:Label x="394" y="18" text="Node icon:" fontSize="12" fontWeight="normal" fontStyle="italic"/>
+	<mx:CheckBox x="216" y="68" label="Show grid" id="chkShowGrid" valueCommit="chkShowGridValueCommit_handler(event)"/>
+	<mx:Label x="216" y="29" text="Scale factor:" id="lblZoom"/>	
+	<mx:ComboBox x="298" y="27" id="cmbScale" selectedIndex="3" change="cmbScaleChange_handler(event)" editable="false">
+		<mx:Array>
+			<mx:Object label="10%" data="0.1"/>
+			<mx:Object label="20%" data="0.2"/>
+			<mx:Object label="50%" data="0.5"/>
+			<mx:Object label="100%" data="1"/> 
+			<mx:Object label="200%" data="2"/>
+			<mx:Object label="500%" data="5"/>
+			<mx:Object label="2000%" data="20"/>
+		</mx:Array>
+	</mx:ComboBox>
+
+	<mx:Label x="535" y="38" text="Background colour:"/>
+	<mx:ColorPicker x="650" y="38" id="cpBackgroundColour" selectedColor="{DisplayPropertiesSingleton.getSingletonInstance().getBackgroundWorkAreaColour()}"
+	 	valueCommit="{DisplayPropertiesSingleton.getSingletonInstance().setBackgroundWorkAreaColour(this.cpBackgroundColour.selectedColor)}"/>
+	
+	
+	
+</mx:Canvas>
+

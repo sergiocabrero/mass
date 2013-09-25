@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="329" height="209" 
+	showCloseButton="true" close="closeAreaPanel()" title="Area properties" 
+	verticalAlign="middle" fontSize="15" fontWeight="bold" borderColor="#E2E2E2" horizontalAlign="center"> 
+	
+	<mx:Script source="../ViewControllers/SelectAreaPopUp.as"/> 
+	
+	<mx:HBox height="100" width="287" horizontalAlign="center" verticalAlign="middle">
+        <mx:VBox verticalAlign="middle" horizontalAlign="center" width="136" height="88">
+	        <mx:Label  text="X Coordinates" fontSize="12"/>
+	        <mx:HBox>
+	        	<mx:Label text="From:" fontWeight="normal" fontSize="10"/>
+	        	<mx:NumericStepper id="xFrom" fontSize="10" fontWeight="normal" minimum="0" maximum="999"/>
+	        </mx:HBox>
+	        <mx:HBox>
+	        	<mx:Label text="   To:" fontWeight="normal" fontSize="10"/>
+				<mx:NumericStepper id="xTo" fontSize="10" fontWeight="normal" minimum="0" maximum="999"/>	
+			</mx:HBox>
+        </mx:VBox>
+        <mx:VBox height="88" width="131" horizontalAlign="center" verticalAlign="middle">
+        <mx:Label  text="Y Coordinates" fontSize="12"/>
+        	<mx:HBox>
+        		<mx:Label text="From:" fontWeight="normal" fontSize="10"/>
+	        	<mx:NumericStepper id="yFrom" fontSize="10" fontWeight="normal" minimum="0" maximum="999"/>
+        	</mx:HBox>
+        	<mx:HBox>
+	        	<mx:Label text="   To:" fontWeight="normal" fontSize="10"/>
+	        	<mx:NumericStepper id="yTo" fontSize="10" fontWeight="normal" minimum="0" maximum="999"/>
+        	</mx:HBox>
+        </mx:VBox>
+    </mx:HBox>
+	<mx:HBox height="39" width="283" horizontalAlign="center" verticalAlign="middle">
+		<mx:Button label="OK" click="returnArea()" width="81" height="24" fontSize="12"/>
+		<mx:Button label="Reset" click="resetCoordinates()" width="81" height="24" fontSize="12" id="resetButton"/>
+	</mx:HBox>
+	
+</mx:TitleWindow>
+
